@@ -47,13 +47,12 @@
   (fn [request]
     (let [session-cookie (get (:cookies request) "session" "")
           username (get (:form-params request) "username")]
-      (if (not= session-cookie "")
+      (if (or (not= session-cookie "")
+              (re-find #"/static" (:uri request)))
         (handler request)
         (if username
           (let [request-with-get (assoc-in request [:request-method] :get)
                 response (handler request-with-get)]
-            (println request-with-get)
-            (println response)
             (assoc-in response [:cookies "session" :value] username))
           (file-response "resources/login.html"))))))
 

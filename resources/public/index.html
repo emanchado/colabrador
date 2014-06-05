@@ -6,14 +6,14 @@
     <title>Colabrador</title>
 
 
-    <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/colabrador.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/colabrador.css" rel="stylesheet">
 
   
 </head>
 
   <body>
-<div class="jumbotron">    <img class="logo" src="/images/dog.png" width="200px">
+<div class="jumbotron">    <img class="logo" src="/static/images/dog.png" width="200px">
 
     <h1>Colabrador</h1> 
     Welcome NAME Ready, set, type! 
@@ -30,7 +30,7 @@ What are you thinking?
     <div class="input-group input-group-lg">
       <span class="input-group-addon"> <glyphicon class="glyphicon glyphicon-pencil"> </span>
 
-        <input type="text" id="message-box" name="message" class="form-control" placeholder="Type your name" maxlength="40">
+        <input type="text" id="message-box" name="message" class="form-control" placeholder="Type your thoughts" maxlength="40">
               
     </div>
 </div>
@@ -49,6 +49,6 @@ What are you thinking?
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <!-- Wiring of the WebSockets and such -->
-    <script src="/js/messenger.js"></script>
+    <script src="/static/js/messenger.js"></script>
   </body>
 </html>
