@@ -1,7 +1,6 @@
 var hostname = location.hostname;
 var port = location.port;
 var socket = new WebSocket("ws://" + hostname + ":" + port + "/chat");
-var messagesDiv = document.getElementById("messages");
 
 socket.onmessage = function(msg) {
     console.log("Received message from server: " + msg.data);

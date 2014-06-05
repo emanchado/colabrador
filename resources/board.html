@@ -15,47 +15,25 @@
   </head>
 
   <body>
-    <div class="jumbotron">    <img class="logo" src="dog.png" width="200px">
+    <div class="jumbotron">
+      <img class="logo" src="dog.png" width="200px">
 
       <h1>Colaborador</h1>
-      tada
-
+      Placeholder
     </div>
+
     <div class="container col-md-12">
+      There are <span id="number-messages">0</span> message(s).<br/>
 
-      <div id="container">
-        <div class="box widget col-md-3" id="box1"> What the kid wrote <glyphicon class="glyphicon glyphicon-remove exit"></div>
-        <div class="box widget col-md-3" id="box2" >Oh my...<glyphicon class="glyphicon glyphicon-remove exit"></div>
-        <div class="box widget col-md-3" id="box3" >Oh my...<glyphicon class="glyphicon glyphicon-remove exit"></div>
+      <a href="/answers">Show answers <strong>without</strong> authors</a> |
+      <a href="/public-answers">Show answers with authors</a>
+    </div>
 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
 
-      </div>
-
-      <div class="controls">
-        <ul>
-          <li class="controlsTitle">Options</li>
-          <li>
-            <label><input type="checkbox" name="snap" id="snap" value="1" /> Snap end position to grid</label>
-          </li>
-          <li>
-            <label><input type="checkbox" name="liveSnap" id="liveSnap" value="1" /> Live snap</label>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-
-
-
-
-      </div>
-      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-      <!-- Include all compiled plugins (below), or include individual files as needed -->
-      <script src="bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/TweenMax.min.js"></script>
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/utils/Draggable.min.js"></script>
-
-      <script src="/js/board.js"></script>
+    <script src="/js/board.js"></script>
   </body>
 </html>
