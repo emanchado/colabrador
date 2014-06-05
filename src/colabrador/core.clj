@@ -1,7 +1,8 @@
 (ns colabrador.core
   (:use org.httpkit.server)
   (:use [compojure.core :only (defroutes GET POST)])
-  (:require [compojure.route :as route]
+  (:require [clojure.data.json :as json]
+            [compojure.route :as route]
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :refer [file-response redirect]])
@@ -10,13 +11,14 @@
 
 (def messages (atom []))
 (def channels (atom []))
+(def teacher-channels (atom []))
 
 (defn chat-handler [request]
-  (let [user (-> request :headers (get "user-agent"))]
+  (let [user (get-in request [:cookies "session" :value])]
     (println @messages)
     (with-channel request channel
       (swap! channels #(conj % channel))
-      (println (str ">> NEW: " (count @channels) " channel(s) total"))
+      (println (str ">> NEW STUDENT CHANNEL (" (count @channels) " channel(s) total)"))
       (doseq [m @messages]
         (send! channel (:text m)))
       (on-close channel (fn [status]
@@ -24,12 +26,22 @@
                           (swap! channels
                                  (fn [chs] (remove #(= channel %) chs)))))
       (on-receive channel (fn [data]
-                            (swap! messages
-                                   (fn [m] (conj m {:text data
-                                                   :user user
-                                                   :date (new java.util.Date)})))
-                            (doseq [ch @channels]
-                              (send! ch data)))))))
+                            (let [message {:text data
+                                           :user user
+                                           :date (str (new java.util.Date))}]
+                              (swap! messages
+                                     (fn [m] (conj m message)))
+                              (doseq [ch @channels]
+                                (send! ch data))
+                              (doseq [ch @teacher-channels]
+                                (send! ch (json/write-str message)))))))))
+
+(defn message-info-handler [request]
+  (with-channel request channel
+    (swap! teacher-channels #(conj % channel))
+    (println (str ">> NEW TEACHER CHANNEL (" (count @teacher-channels) " channel(s) total)"))
+    (doseq [m @messages]
+      (send! channel (json/write-str m)))))
 
 (defn wrap-auth [handler]
   (fn [request]
@@ -63,8 +75,11 @@
 (defroutes app
   (GET "/" [] (file-response "resources/public/index.html"))
   (GET "/chat" [] chat-handler)
+  (GET "/messages" [] (wrap-teacher-only message-info-handler))
   (GET "/board" [] (wrap-teacher-only
                     (fn [r] (file-response "resources/board.html"))))
+  (GET "/answers" [] (wrap-teacher-only
+                      (fn [r] (file-response "resources/answers.html"))))
   (GET "/logout" [] logout-handler)
   (route/resources "/")
   (route/not-found "404 Not Found"))

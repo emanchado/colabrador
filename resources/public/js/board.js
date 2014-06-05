@@ -1,9 +1,12 @@
 var hostname = location.hostname;
 var port = location.port;
-var socket = new WebSocket("ws://" + hostname + ":" + port + "/chat");
+var socket = new WebSocket("ws://" + hostname + ":" + port + "/messages");
 var numberMessagesDiv = document.getElementById('number-messages');
+var messages = [];
 
 socket.onmessage = function(msg) {
-    var numberMessages = parseInt(numberMessagesDiv.innerHTML, 10);
-    numberMessagesDiv.innerHTML = numberMessages + 1;
+    console.log(msg.data);
+    messages.push(JSON.parse(msg.data));
+
+    numberMessagesDiv.innerHTML = messages.length;
 };
