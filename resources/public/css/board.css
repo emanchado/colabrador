@@ -1,22 +1,23 @@
 #container {
-  height:801px; 
+  height:1001px; 
   overflow:visible; 
   padding:0; 
   position:relative;
+  padding-left: 30px;
+  background-color: black;
 }
 
 .box {
-	background-color: pink;
+	background-color: white;
 	text-align: center;
-	width: 196px;
-	height: 100px;
-	line-height: 100px;
+	width: auto;
+	height: auto;
 	color: black;
 	position: absolute;
 	top:0;
-	-webkit-border-radius: 30px;
-	-moz-border-radius: 30px;
-	border-radius: 30px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 }
 
 .controls {
@@ -46,13 +47,7 @@
 }
 
 #box2 {
-  background: white;
-  width: 200%
 }
 
-
 #box3 {
-	width: 300px;
-  background: #ccc;
-  width: auto;
 }
