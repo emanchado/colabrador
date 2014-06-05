@@ -41,7 +41,11 @@
     (swap! teacher-channels #(conj % channel))
     (println (str ">> NEW TEACHER CHANNEL (" (count @teacher-channels) " channel(s) total)"))
     (doseq [m @messages]
-      (send! channel (json/write-str m)))))
+      (send! channel (json/write-str m)))
+    (on-close channel (fn [status]
+                        (println ">> CLOSED TEACHER CHANNEL: " status)
+                        (swap! teacher-channels
+                               (fn [chs] (remove #(= channel %) chs)))))))
 
 (defn wrap-auth [handler]
   (fn [request]
