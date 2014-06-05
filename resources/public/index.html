@@ -22,11 +22,13 @@
 </div>
     <div class="container col-md-12">
 
+  <form method="post" id="message-form" action="/chat">
   <div class="widget col-md-6">
     <div class="input-group input-group-lg">
       <span class="input-group-addon"> <glyphicon class="glyphicon glyphicon-tower"> </span>
-      <input type="text" class="form-control" placeholder="Type your thougths there" maxlength="200">
+        <input type="text" id="message-box" name="message" class="form-control" placeholder="Type your thougths there" maxlength="200">
     </div>
+    </form>
 
     </div>
 </div>
@@ -44,5 +46,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- Wiring of the WebSockets and such -->
+    <script src="init.js"></script>
   </body>
 </html>
