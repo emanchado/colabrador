@@ -1,4 +1,4 @@
-(defproject httpkittest "0.1.0-SNAPSHOT"
+(defproject colabrador "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -6,4 +6,4 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [http-kit "2.1.16"]
                  [compojure "1.1.8"]]
-  :main httpkittest.core)
+  :main colabrador.core)

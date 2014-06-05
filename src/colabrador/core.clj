@@ -1,4 +1,4 @@
-(ns httpkittest.core
+(ns colabrador.core
   (:use org.httpkit.server)
   (:use [compojure.core :only (defroutes GET POST)])
   (:require [compojure.route :as route]
