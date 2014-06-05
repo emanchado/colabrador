@@ -1,0 +1,58 @@
+#container {
+  height:801px; 
+  overflow:visible; 
+  padding:0; 
+  position:relative;
+}
+
+.box {
+	background-color: pink;
+	text-align: center;
+	width: 196px;
+	height: 100px;
+	line-height: 100px;
+	color: black;
+	position: absolute;
+	top:0;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+}
+
+.controls {
+	background-color: #222;
+	border: 0px solid #555;
+	font-size: 18px;
+  margin: 20px 0;
+}
+.controls ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.controls li {
+	display: inline-block;
+	padding: 8px 0 8px 10px;
+	margin:0;
+}
+.controls input {
+  vertical-align:middle;
+  cursor: pointer;
+}
+.controls .controlsTitle {
+  border-right:1px solid #555; 
+  border-bottom:none; 
+  padding-right:10px;
+}
+
+#box2 {
+  background: white;
+  width: 200%
+}
+
+
+#box3 {
+	width: 300px;
+  background: #ccc;
+  width: auto;
+}

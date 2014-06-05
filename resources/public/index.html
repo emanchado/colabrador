@@ -1,16 +1,48 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>WebSockets test</title>
-  </head>
+    <meta charset="utf-8">
+
+    <title>My Dashboard</title>
+
+
+    <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="colabrador.css" rel="stylesheet">
+
+  
+</head>
 
   <body>
-    <div id="messages"></div>
+<div class="jumbotron">    <img class="logo" src="dog.png" width="200px">
 
-    <form method="post" id="message-form" action="/chat">
-      <input type="text" id="message-box" name="message" value="" />
-    </form>
-    <script type="text/javascript" src="init.js"></script>
+    <h1>Colaborador</h1> 
+    <span class="quote"> Share what you are thinking </span>
+    You are logged in as "name"
+
+</div>
+    <div class="container col-md-12">
+
+  <div class="widget col-md-6">
+    <div class="input-group input-group-lg">
+      <span class="input-group-addon"> <glyphicon class="glyphicon glyphicon-tower"> </span>
+      <input type="text" class="form-control" placeholder="Type your thougths there" maxlength="200">
+    </div>
+
+    </div>
+</div>
+<div class="col-md-6">
+<button type="button" class="btn btn-shout"> shout </button>
+<button type="button" class="btn btn-talk"> talk </button>
+<button type="button" class="btn btn-whisper"> whisper </button>
+</div>
+
+
+
+
+</div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
