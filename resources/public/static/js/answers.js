@@ -56,4 +56,30 @@ function applySnap() {
 	update();
 }
 
-update();
+var hostname = location.hostname;
+var port = location.port;
+var socket = new WebSocket("ws://" + hostname + ":" + port + "/messages");
+var messagesDiv = document.getElementById('container');
+var messages = [];
+
+socket.onmessage = function(msg) {
+    console.log(msg.data);
+    var parsedMessage = JSON.parse(msg.data);
+    messages.push(parsedMessage);
+
+    var newMessage = document.createElement("div");
+    newMessage.setAttribute("class", "box");
+    // TODO: if we ever support deleting messages, this will be buggy!
+    newMessage.setAttribute("id", messages.length);
+
+    var newMessageText = document.createTextNode(parsedMessage.text);
+    newMessage.appendChild(newMessageText);
+
+    var glyphicon = document.createElement("glyphicon");
+    glyphicon.setAttribute("class", "glyphicon glyphicon-remove exit");
+    newMessage.appendChild(glyphicon);
+
+    messagesDiv.appendChild(newMessage);
+
+    update();
+};
