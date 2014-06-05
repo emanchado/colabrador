@@ -11,7 +11,7 @@
 (def messages (atom []))
 (def channels (atom []))
 
-(defn handler [request]
+(defn chat-handler [request]
   (let [user (-> request :headers (get "user-agent"))]
     (println @messages)
     (with-channel request channel
@@ -45,6 +45,16 @@
             (assoc-in response [:cookies "session" :value] username))
           (file-response "resources/login.html"))))))
 
+(defn is-teacher? [request]
+  (let [session-cookie (get-in request [:cookies "session" :value])]
+    (= session-cookie "teacher")))
+
+(defn wrap-teacher-only [handler]
+  (fn [request]
+    (if (is-teacher? request)
+      (handler request)
+      (file-response "resources/denied.html"))))
+
 (defn logout-handler [request]
   {:body "Goodbye!"
    :status 200
@@ -52,10 +62,12 @@
 
 (defroutes app
   (GET "/" [] (file-response "resources/public/index.html"))
-  (GET "/chat" [] handler)
+  (GET "/chat" [] chat-handler)
+  (GET "/board" [] (wrap-teacher-only
+                    (fn [r] (file-response "resources/board.html"))))
   (GET "/logout" [] logout-handler)
   (route/resources "/")
-  (route/not-found "Not Found, motherfucker"))
+  (route/not-found "404 Not Found"))
 
 (def wrapped-app
   (-> app
