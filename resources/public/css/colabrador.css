@@ -42,6 +42,10 @@ body {
 .avatar {
 	width: 40px;
 }
+.complete {
+	background-color: white;
+	border-radius: 500px;
+}
 h2 {
 	padding-left: 40px;
 }

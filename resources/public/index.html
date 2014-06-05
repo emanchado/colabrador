@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>My Dashboard</title>
+    <title>Colabrador</title>
 
 
     <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,30 +13,32 @@
 </head>
 
   <body>
-<div class="jumbotron">    <img class="logo" src="dog.png" width="200px">
+<div class="jumbotron">    <img class="logo" src="images/dog.png" width="200px">
 
-    <h1>Colaborador</h1> 
-    <span class="quote"> Share what you are thinking </span>
-    You are logged in as "name"
-
+    <h1>Colabrador</h1> 
+    Welcome NAME Ready, set, type! 
+    
 </div>
     <div class="container col-md-12">
+<div class="col-md-8 info">
+What are you thinking?
+</div>
+<div class="col-md4">
+  <form method="post" id="message-form" action="">
 
-  <form method="post" id="message-form" action="/chat">
   <div class="widget col-md-6">
     <div class="input-group input-group-lg">
-      <span class="input-group-addon"> <glyphicon class="glyphicon glyphicon-tower"> </span>
-        <input type="text" id="message-box" name="message" class="form-control" placeholder="Type your thougths there" maxlength="200">
+      <span class="input-group-addon"> <glyphicon class="glyphicon glyphicon-pencil"> </span>
+
+        <input type="text" id="message-box" name="message" class="form-control" placeholder="Type your name" maxlength="40">
+              
+    </div>
+</div>
+    <div class="widget col-md-4">
+    <input type="button" class="btn btn-primary" value="Share" />
     </div>
     </form>
 
-    </div>
-</div>
-<div class="col-md-6">
-<button type="button" class="btn btn-shout"> shout </button>
-<button type="button" class="btn btn-talk"> talk </button>
-<button type="button" class="btn btn-whisper"> whisper </button>
-</div>
 
 
 

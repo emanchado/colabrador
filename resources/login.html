@@ -1,12 +1,43 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Login</title>
-  </head>
+    <meta charset="utf-8">
+
+    <title>Colabrador</title>
+
+
+    <link href="/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/colabrador.css" rel="stylesheet">
+
+  
+</head>
 
   <body>
-    <form method="post" action="">
-      <input type="text" name="username" placeholder="Your name" />
-      <input type="submit" value="Login" />
+<div class="jumbotron">    <img class="logo" src="/images/dog.png" width="200px">
+
+    <h1>Colabrador</h1> 
+    <span class="quote"> Share and discuss </span>
+
+</div>
+    <div class="container col-md-12">
+<div class="col-md-8 info">
+You have to type in your name before you can start sharing your thouthgs.
+</div>
+<div class="col-md4">
+  <form method="post" id="message-form" action="">
+
+  <div class="widget col-md-6">
+    <div class="input-group input-group-lg">
+      <span class="input-group-addon"> <glyphicon class="glyphicon glyphicon-user"> </span>
+
+        <input type="text" id="message-box" name="message" class="form-control" placeholder="Type your name" maxlength="40">
+              
+    </div>
+</div>
+    <div class="widget col-md-4">
+    <input type="button" class="btn btn-primary" value="Login" />
+    </div>
     </form>
-  </body>
+
+    </div>
 </html>
