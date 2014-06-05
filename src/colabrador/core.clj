@@ -72,8 +72,13 @@
    :status 200
    :cookies (assoc-in (:cookies request) ["session" :max-age] 0)})
 
+(defn index-page [request]
+  (if (is-teacher? request)
+    (file-response "resources/board.html")
+    (file-response "resources/public/index.html")))
+
 (defroutes app
-  (GET "/" [] (file-response "resources/public/index.html"))
+  (GET "/" [] index-page)
   (GET "/chat" [] chat-handler)
   (GET "/messages" [] (wrap-teacher-only message-info-handler))
   (GET "/board" [] (wrap-teacher-only
