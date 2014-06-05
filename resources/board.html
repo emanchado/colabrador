@@ -6,7 +6,7 @@
     <title>My Dashboard</title>
 
 
-    <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/board.css" rel="stylesheet">
 
     <link href="/css/colabrador.css" rel="stylesheet">
@@ -16,18 +16,31 @@
 
   <body>
     <div class="jumbotron">
-      <img class="logo" src="dog.png" width="200px">
+      <img class="logo" src="/images/dog.png" width="200px">
 
       <h1>Colabrador</h1>
-      Placeholder
-    </div>
+      Sssh... The monkies are typing....
+      </div>
 
     <div class="container col-md-12">
-      There are <span id="number-messages">0</span> message(s).<br/>
+      <div class="container">
+      <div class="nugget col-md-4">
+      There are <span id="number-messages">0</span> message(s) on the board.<br/>
+      </div>
+      
+      <div class="col-md-4 nugget">
+      <a href="/answers">To se all the answers, go to the <strong>anonymous</strong> answer board </a> <br>
 
-      <a href="/answers">Show answers <strong>without</strong> authors</a> |
-      <a href="/public-answers">Show answers with authors</a>
     </div>
+      <div >
+      <div class="sidepanel col-md-8 nugget">
+        If you want an open discussion, where everyone can see who has written what, then you go to the 
+      <a href="/public-answers">open board.</a>
+    </div>
+      <div>
+      </div>
+    </div>
+  </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

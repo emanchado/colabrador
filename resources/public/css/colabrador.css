@@ -49,3 +49,18 @@ body {
 h2 {
 	padding-left: 40px;
 }
+
+.nugget {
+	background-color: #ccc;
+	border-radius: 5px;
+	color: black;
+	padding: 15px;
+	margin: 15px;
+	font-size: 1.5em;
+	font-weight: bold;
+
+}
+.sidepanel {
+	float: right;
+
+}
