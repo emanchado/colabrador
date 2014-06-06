@@ -80,8 +80,6 @@ socket.onmessage = function(rawMessage) {
     // Position randomly
     newMessage.style.left = randomInt(messagesDiv.offsetWidth - 300) + "px";
     newMessage.style.top = randomInt(messagesDiv.offsetHeight - 200) + "px";
-    console.log("left -> " + newMessage.style.left);
-    console.log("top -> " + newMessage.style.top);
 
     var glyphicon = document.createElement("glyphicon");
     glyphicon.setAttribute("class", "glyphicon glyphicon-remove-sign exit");
