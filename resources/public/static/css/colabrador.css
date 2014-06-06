@@ -24,6 +24,10 @@ h1 {
  src: url("/static/fonts/Roboto-Light.ttf") /* TTF file for CSS3 browsers */
 }
 
+@font-face {
+ font-family: butterflies;
+ src: url("/static/fonts/Butterflies.ttf") /* TTF file for CSS3 browsers */
+}
 
 .widget {
 }
@@ -158,13 +162,14 @@ textarea {
 	background: rgba(255,255,255,0.5)
 }
 .deco {
-	font-family: can_dog_tfb;
+	font-family: butterflies;
 	color: #6997d3;
 	font-size: 5em;
 	position: relative;
     top: -100px;
 }
 .deco2 {
+	font-family: can_dog_tfb;
 	color: #05326d;
 	top: 50px;
 
@@ -177,5 +182,5 @@ textarea {
 
 .btn-primary {
 	background-color: #05326d;
-	width: 100%;
+	width: 50%;
 }
