@@ -74,7 +74,7 @@ socket.onmessage = function(rawMessage) {
         "<br/><span class='username'>" + msg.user + "</span></div>";
 
     var glyphicon = document.createElement("glyphicon");
-    glyphicon.setAttribute("class", "glyphicon glyphicon-remove exit");
+    glyphicon.setAttribute("class", "glyphicon glyphicon-remove-sign exit");
     glyphicon.setAttribute("data-id", msg.id);
     glyphicon.addEventListener("click", function(evt) {
         evt.target.parentNode.remove();
