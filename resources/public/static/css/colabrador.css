@@ -70,6 +70,7 @@ a {
 .exit {
 	font-size: 1em;
 	float: right;
+        cursor: pointer;
 }
 
 .widget {
