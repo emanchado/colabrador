@@ -106,6 +106,8 @@
                     (fn [r] (file-response "resources/board.html"))))
   (GET "/answers" [] (wrap-teacher-only
                       (fn [r] (file-response "resources/answers.html"))))
+  (GET "/public-answers" [] (wrap-teacher-only
+                             (fn [r] (file-response "resources/public-answers.html"))))
   (GET "/logout" [] logout-handler)
   (route/resources "/")
   (route/not-found "404 Not Found"))
