@@ -18,5 +18,13 @@
         Colabrador is happy!
       </div>
     </div>
+
+    <script type="text/javascript">
+      function getCookie(name) {
+          return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+      }
+      var usernameSpan = document.getElementById("username");
+      usernameSpan.innerHTML = getCookie("session");
+    </script>
   </body>
 </html>
