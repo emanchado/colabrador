@@ -19,6 +19,11 @@ h1 {
  src: url("/static/fonts/ComicChub.ttf") /* TTF file for CSS3 browsers */
 }
 
+@font-face {
+ font-family: roboto;
+ src: url("/static/fonts/Roboto-Light.ttf") /* TTF file for CSS3 browsers */
+}
+
 
 .widget {
 }
@@ -94,9 +99,9 @@ h2 {
 }
 
 .nugget {
-	background-color: #ccc;
+	background-color: #05326d;
+        color: white;
 	border-radius: 5px;
-	color: black;
 	padding: 15px;
 	margin: 15px;
 	font-size: 1.5em;
