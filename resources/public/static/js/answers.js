@@ -62,21 +62,30 @@ var socket = new WebSocket("ws://" + hostname + ":" + port + "/messages");
 var messagesDiv = document.getElementById('container');
 var messages = [];
 
-socket.onmessage = function(msg) {
-    console.log(msg.data);
-    var parsedMessage = JSON.parse(msg.data);
-    messages.push(parsedMessage);
+socket.onmessage = function(rawMessage) {
+    function randomInt(limit) {
+        return Math.floor(Math.random() * (limit + 1));
+    }
+
+    console.log(rawMessage.data);
+    var msg = JSON.parse(rawMessage.data);
+    messages.push(msg);
 
     var newMessage = document.createElement("div");
     newMessage.setAttribute("class", "box");
-    newMessage.setAttribute("id", parsedMessage.id);
+    newMessage.setAttribute("id", msg.id);
+    newMessage.innerHTML = "<div class='text'>" + msg.text +
+        "</span></div>";
 
-    var newMessageText = document.createTextNode(parsedMessage.text);
-    newMessage.appendChild(newMessageText);
+    // Position randomly
+    newMessage.style.left = randomInt(messagesDiv.offsetWidth - 300) + "px";
+    newMessage.style.top = randomInt(messagesDiv.offsetHeight - 200) + "px";
+    console.log("left -> " + newMessage.style.left);
+    console.log("top -> " + newMessage.style.top);
 
     var glyphicon = document.createElement("glyphicon");
-    glyphicon.setAttribute("class", "glyphicon glyphicon-remove exit");
-    glyphicon.setAttribute("data-id", parsedMessage.id);
+    glyphicon.setAttribute("class", "glyphicon glyphicon-remove-sign exit");
+    glyphicon.setAttribute("data-id", msg.id);
     glyphicon.addEventListener("click", function(evt) {
         evt.target.parentNode.remove();
 

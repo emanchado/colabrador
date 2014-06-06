@@ -63,6 +63,10 @@ var messagesDiv = document.getElementById('container');
 var messages = [];
 
 socket.onmessage = function(rawMessage) {
+    function randomInt(limit) {
+        return Math.floor(Math.random() * (limit + 1));
+    }
+
     console.log(rawMessage.data);
     var msg = JSON.parse(rawMessage.data);
     messages.push(msg);
@@ -72,6 +76,12 @@ socket.onmessage = function(rawMessage) {
     newMessage.setAttribute("id", msg.id);
     newMessage.innerHTML = "<div class='text'>" + msg.text +
         "<br/><span class='username'>" + msg.user + "</span></div>";
+
+    // Position randomly
+    newMessage.style.left = randomInt(messagesDiv.offsetWidth - 300) + "px";
+    newMessage.style.top = randomInt(messagesDiv.offsetHeight - 200) + "px";
+    console.log("left -> " + newMessage.style.left);
+    console.log("top -> " + newMessage.style.top);
 
     var glyphicon = document.createElement("glyphicon");
     glyphicon.setAttribute("class", "glyphicon glyphicon-remove-sign exit");
