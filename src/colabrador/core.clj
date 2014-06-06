@@ -9,6 +9,7 @@
   (:require [ring.middleware.file :refer [wrap-file]])
   (:gen-class))
 
+(def ^:dynamic *max-messages* 50)
 (def messages (atom []))
 (def channels (atom []))
 (def teacher-channels (atom []))
@@ -23,13 +24,15 @@
                  :user user
                  :date (str (new java.util.Date))
                  :id (str (java.util.UUID/randomUUID))}]
-    (swap! messages
-           (fn [m] (conj m message)))
-    (doseq [ch @channels]
-      (send! ch message-text))
-    (doseq [ch @teacher-channels]
-      (println (str "Sending message to teachers: " message))
-      (send! ch (json/write-str message)))))
+    (when (< (count @messages) *max-messages*)
+      (println (str "Accepting message: " message-text))
+      (swap! messages
+             (fn [m] (conj m message)))
+      (doseq [ch @channels]
+        (send! ch message-text))
+      (doseq [ch @teacher-channels]
+        (println (str "Sending message to teachers: " message))
+        (send! ch (json/write-str message))))))
 
 (defn chat-handler [request]
   (let [user (get-in request [:cookies "session" :value])]
