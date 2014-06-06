@@ -95,6 +95,11 @@
    :status 200
    :cookies (assoc-in (:cookies request) ["session" :max-age] 0)})
 
+(defn completed-handler [request]
+  {:body (slurp "resources/public/completed.html")
+   :status 200
+   :cookies (assoc-in (:cookies request) ["session" :max-age] 0)})
+
 (defn index-page [request]
   (if (is-teacher? request)
     (file-response "resources/board.html")
@@ -103,7 +108,7 @@
 (defroutes app
   (GET "/" [] index-page)
   (GET "/chat" [] chat-handler)
-  (GET "/completed" [] (file-response "resources/public/completed.html"))
+  (GET "/completed" [] completed-handler)
   (GET "/messages" [] (wrap-teacher-only message-info-handler))
   (GET "/board" [] (wrap-teacher-only
                     (fn [r] (file-response "resources/board.html"))))
