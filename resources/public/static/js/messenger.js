@@ -7,7 +7,6 @@ socket.onmessage = function(msg) {
 };
 
 document.getElementById("message-form").addEventListener("submit", function(e) {
-    e.preventDefault();
     var box = document.getElementById("message-box");
     socket.send(JSON.stringify({command: 'post', text: box.value}));
     box.value = "";

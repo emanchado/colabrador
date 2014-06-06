@@ -100,6 +100,7 @@
 (defroutes app
   (GET "/" [] index-page)
   (GET "/chat" [] chat-handler)
+  (GET "/completed" [] (file-response "resources/public/completed.html"))
   (GET "/messages" [] (wrap-teacher-only message-info-handler))
   (GET "/board" [] (wrap-teacher-only
                     (fn [r] (file-response "resources/board.html"))))
