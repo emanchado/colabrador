@@ -9,9 +9,19 @@ h1 {
 	font-family: ComicChub;
 }
 
+@font-face {
+ font-family: candog;
+ src: url("/static/fonts/can_dog_tfb.ttf");
+
+ font-family: ComicChub;
+ src: url("/static/fonts/ComicChub.ttf") /* TTF file for CSS3 browsers */
+}
+
+
 .widget {
 }
 .logo {
+	display: none;
 	float: right;
 	padding: 1%;
 	background-color: white;
@@ -140,6 +150,7 @@ textarea {
 	background: rgba(255,255,255,0.5)
 }
 .deco {
-	font-family: can_dog_tfb;
-	
+	font-family: candog;
+	color: red;
+
 }
