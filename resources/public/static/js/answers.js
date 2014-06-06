@@ -69,14 +69,18 @@ socket.onmessage = function(msg) {
 
     var newMessage = document.createElement("div");
     newMessage.setAttribute("class", "box");
-    // TODO: if we ever support deleting messages, this will be buggy!
-    newMessage.setAttribute("id", messages.length);
+    newMessage.setAttribute("id", parsedMessage.id);
 
     var newMessageText = document.createTextNode(parsedMessage.text);
     newMessage.appendChild(newMessageText);
 
     var glyphicon = document.createElement("glyphicon");
     glyphicon.setAttribute("class", "glyphicon glyphicon-remove exit");
+    glyphicon.setAttribute("data-id", parsedMessage.id);
+    glyphicon.addEventListener("click", function(evt) {
+        var messageId = this.getAttribute("data-id");
+        socket.send(JSON.stringify({command: 'delete', id: messageId}));
+    }, false);
     newMessage.appendChild(glyphicon);
 
     messagesDiv.appendChild(newMessage);

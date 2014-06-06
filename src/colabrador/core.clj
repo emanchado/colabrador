@@ -13,6 +13,24 @@
 (def channels (atom []))
 (def teacher-channels (atom []))
 
+(defmulti process-command
+  (fn [input user]
+    (get input "command")))
+
+(defmethod process-command "post" [input user]
+  (let [message-text (get input "text")
+        message {:text message-text
+                 :user user
+                 :date (str (new java.util.Date))
+                 :id (str (java.util.UUID/randomUUID))}]
+    (swap! messages
+           (fn [m] (conj m message)))
+    (doseq [ch @channels]
+      (send! ch message-text))
+    (doseq [ch @teacher-channels]
+      (println (str "Sending message to teachers: " message))
+      (send! ch (json/write-str message)))))
+
 (defn chat-handler [request]
   (let [user (get-in request [:cookies "session" :value])]
     (println @messages)
@@ -26,15 +44,8 @@
                           (swap! channels
                                  (fn [chs] (remove #(= channel %) chs)))))
       (on-receive channel (fn [data]
-                            (let [message {:text data
-                                           :user user
-                                           :date (str (new java.util.Date))}]
-                              (swap! messages
-                                     (fn [m] (conj m message)))
-                              (doseq [ch @channels]
-                                (send! ch data))
-                              (doseq [ch @teacher-channels]
-                                (send! ch (json/write-str message)))))))))
+                            (println (str "Received " data))
+                            (process-command (json/read-str data) user))))))
 
 (defn message-info-handler [request]
   (with-channel request channel
@@ -45,7 +56,13 @@
     (on-close channel (fn [status]
                         (println ">> CLOSED TEACHER CHANNEL: " status)
                         (swap! teacher-channels
-                               (fn [chs] (remove #(= channel %) chs)))))))
+                               (fn [chs] (remove #(= channel %) chs)))))
+    (on-receive channel (fn [data]
+                          (println (str "Received " data))
+                          (let [input (json/read-str data)
+                                message-id (get input "id")]
+                            (swap! messages
+                                   (fn [m] (remove #(= (:id %) message-id) m))))))))
 
 (defn wrap-auth [handler]
   (fn [request]
