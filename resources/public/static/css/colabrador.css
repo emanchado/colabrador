@@ -10,9 +10,11 @@ h1 {
 }
 
 @font-face {
- font-family: candog;
- src: url("/static/fonts/can_dog_tfb.ttf");
+ font-family: can_dog_tfb;
+ src: url("/static/fonts/dog.ttf")
+}
 
+@font-face {
  font-family: ComicChub;
  src: url("/static/fonts/ComicChub.ttf") /* TTF file for CSS3 browsers */
 }
@@ -53,7 +55,7 @@ h1 {
 }
 
 .exit {
-	font-size: 2em;
+	font-size: 1em;
 	float: right;
 }
 
@@ -85,6 +87,7 @@ h1 {
 	background-color: white;
 	border-radius: 500px;
 	height: 300px;
+	font-family: roboto;
 }
 h2 {
 	padding-left: 40px;
@@ -150,7 +153,19 @@ textarea {
 	background: rgba(255,255,255,0.5)
 }
 .deco {
-	font-family: candog;
-	color: red;
+	font-family: can_dog_tfb;
+	color: #6997d3;
+	font-size: 5em;
+	position: relative;
+    top: -100px;
+}
+.deco2 {
+	color: #05326d;
+	top: 50px;
+
+}
+.foot {
+	color: #05326d;
+	background-color: #05326d;
 
 }
