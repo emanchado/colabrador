@@ -1,17 +1,45 @@
 body {
-	background-color: black;
+	background-color: #6997d3;
 	color: white;
-	font-size: 2em;
+	font-size: 2em;		
+	font-family: roboto;
+
 }
+h1 {
+	font-family: ComicChub;
+}
+
 .widget {
 }
 .logo {
 	float: right;
-}
-
-.jumbotron {
+	padding: 1%;
 	background-color: white;
-	color: black;
+	border-radius: 500px;
+	height: 30%;
+	width: 20%;
+	margin: 3%;
+	position: relative;
+	z-index: 100;
+}
+.logo2 {
+	float: right;
+	background-color: white;
+	border-radius: 50px;
+	width: 50px;
+	height: 50px;
+	float: right;
+	margin-right: 2%;
+	margin-top: 2%;
+	color: green;
+	font-size: 2em;
+	display: inline-block;
+	position: relative;
+	z-index: 100;
+}
+.jumbotron {
+	background-color: #05326d;
+	padding-left: 20%;
 }
 
 .exit {
@@ -36,8 +64,9 @@ body {
 	color:black;
 }
 .board {
-	background-color: #333;
-	padding: 30px;
+	border-width: 10px;
+	border-color: white;
+
 }
 .avatar {
 	width: 40px;
@@ -45,6 +74,7 @@ body {
 .complete {
 	background-color: white;
 	border-radius: 500px;
+	height: 300px;
 }
 h2 {
 	padding-left: 40px;
@@ -60,7 +90,56 @@ h2 {
 	font-weight: bold;
 
 }
+.endscreen {
+	padding-top: 15%;
+
+}
 .sidepanel {
 	float: right;
 
+}
+
+* { margin: 0; padding: 0 }
+.slide1 { 
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;  /* sets it below the other slides in the layer stack */
+    
+    width: 100%;
+}
+.slide2 {
+    position: relative;
+    z-index: 10;  /* sets it above .slide1  */
+    margin-top: 100%; /* this pushes it below .slide1 in the scroll */
+    height: 100%; /* full length slides */
+    width: 100%;
+    background: rgba(255,255,255,0.8);
+}
+.learn {
+	padding-top: 30px;
+	padding-left: 20%;
+	min-height: 1200px;
+	color: black;
+}
+.learn h2 {
+	padding-top: 10%;
+}
+.info {
+	padding-left: 10%;
+}
+textarea {
+	min-height: 800px;
+	min-width: 300px;
+	width: 80%;
+	height: 90%;
+	font-weight: bold;
+	font-size: 1.5em;
+	border: none;
+	padding: 8px;
+	background: rgba(255,255,255,0.5)
+}
+.deco {
+	font-family: can_dog_tfb;
+	
 }
