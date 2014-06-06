@@ -78,6 +78,8 @@ socket.onmessage = function(msg) {
     glyphicon.setAttribute("class", "glyphicon glyphicon-remove exit");
     glyphicon.setAttribute("data-id", parsedMessage.id);
     glyphicon.addEventListener("click", function(evt) {
+        evt.target.parentNode.remove();
+
         var messageId = this.getAttribute("data-id");
         socket.send(JSON.stringify({command: 'delete', id: messageId}));
     }, false);
