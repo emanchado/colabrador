@@ -1,5 +1,5 @@
 body {
-	background-color: #6997d3;
+	background-color: #0776a0;
 	color: white;
 	font-size: 2em;		
 	font-family: roboto;
@@ -9,6 +9,10 @@ h1 {
 	font-family: ComicChub;
 }
 
+a {
+    color: #60d5ac;
+}
+
 @font-face {
  font-family: can_dog_tfb;
  src: url("/static/fonts/dog.ttf")
@@ -16,17 +20,17 @@ h1 {
 
 @font-face {
  font-family: ComicChub;
- src: url("/static/fonts/ComicChub.ttf") /* TTF file for CSS3 browsers */
+ src: url("/static/fonts/ComicChub.ttf")
 }
 
 @font-face {
  font-family: roboto;
- src: url("/static/fonts/Roboto-Light.ttf") /* TTF file for CSS3 browsers */
+ src: url("/static/fonts/Roboto-Light.ttf")
 }
 
 @font-face {
  font-family: butterflies;
- src: url("/static/fonts/Butterflies.ttf") /* TTF file for CSS3 browsers */
+ src: url("/static/fonts/Butterflies.ttf")
 }
 
 .widget {
@@ -59,7 +63,7 @@ h1 {
 	z-index: 100;
 }
 .jumbotron {
-	background-color: #05326d;
+	background-color: #024c68;
 	padding-left: 20%;
 }
 
@@ -103,7 +107,7 @@ h2 {
 }
 
 .nugget {
-	background-color: #05326d;
+	background-color: #0776a0;
         color: white;
 	border-radius: 5px;
 	padding: 15px;
@@ -161,26 +165,45 @@ textarea {
 	padding: 8px;
 	background: rgba(255,255,255,0.5)
 }
+.quote {
+    z-index: 100;
+}
 .deco {
 	font-family: butterflies;
-	color: #6997d3;
-	font-size: 5em;
-	position: relative;
-    top: -100px;
+	color: #0776a0;
+	position: absolute;
+        white-space: nowrap;
+}
+.deco-top {
+    letter-spacing: 5px;
+    padding-left: 70%;
+	font-size: 2em;
+        top: 10px;
+}
+.deco-bottom {
+	font-size: 3em;
+        top: 180px;
 }
 .deco2 {
 	font-family: can_dog_tfb;
-	color: #05326d;
-	top: 50px;
-
+	color: #024c68;
+	font-size: 3em;
+        position: absolute;
+	bottom: 0px;
+        top: -50px;
+        white-space: nowrap;
 }
 .foot {
-	color: #05326d;
-	background-color: #05326d;
-
+	color: #024c68;
+	background-color: #024c68;
 }
 
 .btn-primary {
-	background-color: #05326d;
+	background-color: #024c68;
 	width: 50%;
+}
+
+.username {
+    font-size: 0.6em;
+    font-weight: bold;
 }

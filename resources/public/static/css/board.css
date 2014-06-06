@@ -4,11 +4,11 @@
     padding:0; 
     position:relative;
     padding-left: 30px;
-    background-color: black;
+    background-color: #333;
 }
 
 .box {
-    background-color: rgba(105,151,211,0.3);
+    background-color: rgba(105,151,211,0.4);
     width: auto;
     height: auto;
     color: white;

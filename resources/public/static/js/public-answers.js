@@ -75,7 +75,7 @@ socket.onmessage = function(rawMessage) {
     newMessage.setAttribute("class", "box");
     newMessage.setAttribute("id", msg.id);
     newMessage.innerHTML = "<div class='text'>" + msg.text +
-        "<br/><span class='username'>" + msg.user + "</span></div>";
+        "<br/><span class='username'>@" + msg.user + "</span></div>";
 
     // Position randomly
     newMessage.style.left = randomInt(messagesDiv.offsetWidth - 300) + "px";
