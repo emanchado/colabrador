@@ -1,13 +1,15 @@
-Instant collaborative board for the classroom
-=============================================
+Colabrador
+==========
 
-This is the result of a two-day hackathon at Fronter/Pearson. The idea
-was making a prototype of a tool to let a teacher ask a question in
-class and get students to send their answers on the spot. The teacher
-can then hook the computer to a projector and show the answers (with
-the submitter's name or not), move them around with drag and drop to
-group them, delete the ones that aren't relevant, and write summary
-notes of the whole process.
+Colabrador is an instant collaborative board for the classroom, and
+it's the result of a two-day hackathon at Fronter/Pearson.
+
+The idea was making a prototype of a tool to let a teacher ask a
+question in class and get students to send their answers on the
+spot. The teacher can then hook the computer to a projector and show
+the answers (with the submitter's name or not), move them around with
+drag and drop to group them, delete the ones that aren't relevant, and
+write summary notes of the whole process.
 
 After this, there's no persistence: all that work is just for that
 particular moment and it's never saved.
