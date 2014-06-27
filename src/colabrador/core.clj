@@ -14,25 +14,24 @@
 (def channels (atom []))
 (def teacher-channels (atom []))
 
-(defmulti process-command
-  (fn [input user]
-    (get input "command")))
-
-(defmethod process-command "post" [input user]
-  (let [message-text (get input "text")
-        message {:text message-text
-                 :user user
-                 :date (str (new java.util.Date))
-                 :id (str (java.util.UUID/randomUUID))}]
-    (when (< (count @messages) *max-messages*)
-      (println (str "Accepting message: " message-text))
-      (swap! messages
-             (fn [m] (conj m message)))
-      (doseq [ch @channels]
-        (send! ch message-text))
-      (doseq [ch @teacher-channels]
-        (println (str "Sending message to teachers: " message))
-        (send! ch (json/write-str message))))))
+(defn process-command [input user]
+  (let [command-name (get input "command")]
+    (if (= "post" command-name)
+      (let [message-text (get input "text")
+            message {:text message-text
+                     :user user
+                     :date (str (new java.util.Date))
+                     :id (str (java.util.UUID/randomUUID))}]
+        (when (< (count @messages) *max-messages*)
+          (println (str "Accepting message: " message-text))
+          (swap! messages
+                 (fn [m] (conj m message)))
+          (doseq [ch @channels]
+            (send! ch message-text))
+          (doseq [ch @teacher-channels]
+            (println (str "Sending message to teachers: " message))
+            (send! ch (json/write-str message)))))
+      (println (str "Ignoring incoming command " command-name)))))
 
 (defn chat-handler [request]
   (let [user (get-in request [:cookies "session" :value])]
