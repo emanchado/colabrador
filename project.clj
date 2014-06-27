@@ -7,4 +7,7 @@
                  [http-kit "2.1.16"]
                  [compojure "1.1.8"]
                  [org.clojure/data.json "0.2.4"]]
+  :plugins [[lein-ring "0.8.11"]]
+  :ring {:handler colabrador.core/app
+         :port 9090}
   :main colabrador.core)
