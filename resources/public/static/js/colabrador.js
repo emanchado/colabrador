@@ -1,15 +1,15 @@
 /*global ajaxRequest, window, showSection, showError, initSection */
 
-var hostname = location.hostname;
-var port = location.port;
-var socket = new WebSocket("ws://" + hostname + ":" + port + "/ws");
+// var hostname = location.hostname;
+// var port = location.port;
+// var socket = new WebSocket("ws://" + hostname + ":" + port + "/ws");
 
-socket.onopen = function() {
-    console.log("Connected!");
-};
-socket.onmessage = function(msg) {
-    console.log("Received message from server: " + msg.data);
-};
+// socket.onopen = function() {
+//     console.log("Connected!");
+// };
+// socket.onmessage = function(msg) {
+//     console.log("Received message from server: " + msg.data);
+// };
 
 window.addEventListener("load", function(/*e*/) {
     ajaxRequest("GET", "/login-info", {
@@ -48,11 +48,30 @@ document.getElementById("login-form").addEventListener("submit", function(e) {
     });
 }, false);
 
+document.getElementById("new-board-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    var box = document.getElementById("new-board-name");
+    console.log("Trying to create board " + box.value);
+    ajaxRequest("POST", "/boards", {
+        ready: function(xmlhttp) {
+            if (xmlhttp.status === 200) {
+                console.log("Server returned: " + xmlhttp.responseText);
+                showSection("board");
+                box.value = "";
+            } else {
+                showError("Couldn't create board '" + box.value + "'");
+            }
+        },
+        body: "board-name=" + encodeURI(box.value)
+    });
+}, false);
+
 document.getElementById("message-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
     var box = document.getElementById("message-box");
-    socket.send(JSON.stringify({command: 'post', text: box.value}));
+    // socket.send(JSON.stringify({command: 'post', text: box.value}));
     box.value = "";
 }, false);
 

@@ -11,7 +11,7 @@
   (:gen-class))
 
 (def ^:dynamic *max-messages* 50)
-(def users (atom {}))
+(def boards (atom {}))
 (def messages (atom []))
 (def channels (atom []))
 
@@ -58,30 +58,48 @@
   (user-id request))
 
 (defn login-handler [request]
-  (println "login-handler")
   (if (login-successful? request)
-    {:body (json/write-str {:status "ok"
-                            :user-id (user-id request)})}
+    (let [user-id (user-id request)]
+      {:body (json/write-str {:status "ok"
+                              :user-id user-id})
+       :session (assoc (:session request) :user-id user-id)})
     {:body (json/write-str {:status "fail"})}))
 
 (defn login-info-handler [request]
-  (println "login-info-handler")
   (if (valid-session? request)
-    (do
-      {:body (json/write-str {:valid-session true})
-       :headers {"Content-Type" "application/json"}
-       :session (assoc (:session request) :logged-in? true)})
+    {:body (json/write-str {:valid-session true
+                            :user-id (-> request :session :user-id)})
+     :headers {"Content-Type" "application/json"}}
     {:body (json/write-str {:valid-session false})
      :headers {"Content-Type" "application/json"}}))
 
 (defn boards-handler [request]
-  {:body (json/write-str {:boards ["one" "two" "three"]})})
+  {:body (json/write-str {:boards (map (comp :name second) @boards)})})
+
+(defn board-found [board-name]
+  (println (str "Trying to find board " board-name " in " @boards))
+  (some #(= (:name (second %)) board-name) @boards))
+
+(defn boards-post-handler [request]
+  (let [board-name (get (:form-params request) "board-name")
+        board-question (get (:form-params request) "board-question")]
+    (if (or (nil? board-name) (board-found board-name))
+      {:body (json/write-str {:status "fail"})}
+      (let [board-id (str (java.util.UUID/randomUUID))]
+        (swap! boards assoc board-id {:name board-name
+                                      :question board-question
+                                      :answers []
+                                      :owner (-> request :session :user-id)})
+        (println (str "Now boards -> " @boards))
+        {:body (json/write-str {:status "ok"
+                                :board-id board-id})}))))
 
 (defroutes app
   (GET "/" [] (file-response "resources/public/index.html"))
   (GET "/login-info" [] login-info-handler)
   (POST "/login" [] login-handler)
   (GET "/boards" [] boards-handler)
+  (POST "/boards" [] boards-post-handler)
   (GET "/ws" [] ws-handler)
   (route/resources "/")
   (route/not-found "404 Not Found"))
