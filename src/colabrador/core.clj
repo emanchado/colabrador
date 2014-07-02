@@ -11,7 +11,7 @@
   (:gen-class))
 
 (def ^:dynamic *max-messages* 50)
-(def users (atom []))
+(def users (atom {}))
 (def messages (atom []))
 (def channels (atom []))
 
@@ -48,30 +48,40 @@
                               (println (str "Received " data))
                               (process-command (json/read-str data) user)))))))
 
-(defn valid-session? [session-id]
-  (println (str "Checking session " session-id))
-  (println (str "Resultado: " (some #(= (:session-id %) session-id) @users)))
-  (some #(= (:session-id %) session-id) @users))
+(defn valid-session? [request]
+  (-> request :session :logged-in?))
 
-(defn wrap-auth [handler]
-  (fn [request]
-    (let [incoming-session (get-in request [:cookies "session" :value])]
-      (if (valid-session? incoming-session)
-        (handler request)
-        (file-response "resources/login.html")))))
+(defn user-id [request]
+  (get (:form-params request) "username"))
+
+(defn login-successful? [request]
+  (user-id request))
 
 (defn login-handler [request]
-  (let [new-session (str (java.util.UUID/randomUUID))]
-    (swap! users conj {:session-id new-session})
+  (println "login-handler")
+  (if (login-successful? request)
     {:body (json/write-str {:status "ok"
-                            :session-id new-session})
-     :status 200
-     :cookies (assoc-in (:cookies request) ["session"] {:value new-session})}))
+                            :user-id (user-id request)})}
+    {:body (json/write-str {:status "fail"})}))
+
+(defn login-info-handler [request]
+  (println "login-info-handler")
+  (if (valid-session? request)
+    (do
+      {:body (json/write-str {:valid-session true})
+       :headers {"Content-Type" "application/json"}
+       :session (assoc (:session request) :logged-in? true)})
+    {:body (json/write-str {:valid-session false})
+     :headers {"Content-Type" "application/json"}}))
+
+(defn boards-handler [request]
+  {:body (json/write-str {:boards ["one" "two" "three"]})})
 
 (defroutes app
-  (GET "/" [] (wrap-auth (fn [r]
-                           (file-response "resources/public/index.html"))))
-  (POST "/" [] login-handler)
+  (GET "/" [] (file-response "resources/public/index.html"))
+  (GET "/login-info" [] login-info-handler)
+  (POST "/login" [] login-handler)
+  (GET "/boards" [] boards-handler)
   (GET "/ws" [] ws-handler)
   (route/resources "/")
   (route/not-found "404 Not Found"))

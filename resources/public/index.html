@@ -18,17 +18,56 @@
       <img class="logo" src="/static/images/dog.png" width="200px">
 
       <h1>Colabrador</h1> 
-      Welcome! Ready, set, type!
+      <span class="quote">Share and discuss</span>
     </div>
 
     <div class="deco deco-top">&nbsp;&nbsp;&nbsp;&nbsp;w</div>
     <div class="deco deco-bottom">The ships hung in the sky in much the same way that bricks don't</div>
 
-    <div class="container col-md-12">
-      <div class="col-md-8 info">
+    <!-- Error messages ================================================== -->
+    <div id="error-section" style="display: none" class="container
+                                                         section col-md-12">
+      <div id="error-message" class="col-md-12">Generic error</div>
+    </div>
+
+    <!-- Login =========================================================== -->
+    <div id="login-section" style="display: none" class="container
+                                                         section col-md-12">
+      <div class="col-md-12">
+        You have to type in your name before you can start sharing your thoughts.
+      </div>
+      <div class="col-md-12">
+        <form method="post" id="login-form" action="/">
+          <div class="widget col-md-8">
+            <div class="input-group input-group-lg">
+              <span class="input-group-addon"> <glyphicon class="glyphicon glyphicon-user"> </span>
+
+              <input type="text" id="login-box" name="username" class="form-control" placeholder="Type your name" maxlength="40">
+            </div>
+          </div>
+          <div class="widget col-md-4">
+            <input type="submit" class="btn btn-primary" value="Login" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- List of boards ================================================== -->
+    <div id="list-boards-section" style="display: none" class="container
+                                                               section col-md-12">
+      <div class="col-md-12 info">
+        <ul id="board-list">
+        </ul>
+      </div>
+    </div>
+
+    <!-- Questions ======================================================= -->
+    <div id="question-section" style="display: none" class="container
+                                                            section col-md-12">
+      <div id="board-question" class="col-md-12 info">
         If you had a superpower, what would that superpower be?
       </div>
-      <div class="col-md4">
+      <div class="col-md-12">
         <form id="message-form" action="/completed">
 
           <div class="widget col-md-6">
@@ -40,27 +79,29 @@
               <input type="text" id="message-box" name="message" class="form-control" placeholder="Type your thoughts" maxlength="100">
             </div>
           </div>
-          <div class="widget col-md-4">
+          <div class="widget col-md-6">
             <input type="submit" class="btn btn-primary" value="Share your
                                                                 answer on the board" />
           </div>
         </form>
       </div>
+    </div>
 
-
-      <div class="foot navbar navbar-fixed-bottom">
-	<div class="deco2 col-md-12">
-          For instance, on the planet Earth, man had always assumed
-          that he was more intelligent than dolphins because he had
-          achieved so much
-	</div>
+    <div class="foot navbar navbar-fixed-bottom">
+      <div class="deco2 col-md-12">
+        For instance, on the planet Earth, man had always assumed
+        that he was more intelligent than dolphins because he had
+        achieved so much
       </div>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/js/bootstrap.min.js"></script>
-    <!-- Wiring of the WebSockets and such -->
+    <!-- Application specific Javascript -->
+    <script src="/static/js/ajax.js"></script>
+    <script src="/static/js/ui.js"></script>
     <script src="/static/js/colabrador.js"></script>
   </body>
 </html>
