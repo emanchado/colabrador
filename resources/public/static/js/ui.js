@@ -28,7 +28,7 @@ function boardConnector(board) {
 
 function showBoard(board) {
     document.getElementById("board-question").textContent = board.question;
-    console.log("Show 'question' section with question " + board.question);
+    document.getElementById("board-id").value = board.id;
     showSection("question");
 }
 

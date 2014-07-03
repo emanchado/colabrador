@@ -10,28 +10,11 @@
   (:require [ring.middleware.file :refer [wrap-file]])
   (:gen-class))
 
-(def ^:dynamic *max-messages* 50)
+(def ^:dynamic *max-messages-per-user* 1)
 (def boards (atom {}))
-(def messages (atom []))
 (def channels (atom []))
 
-(defn process-command [input user]
-  (let [command-name (get input "command")]
-    (if (= "post" command-name)
-      (let [message-text (get input "text")
-            message {:text message-text
-                     :user user
-                     :date (str (new java.util.Date))
-                     :id (str (java.util.UUID/randomUUID))}]
-        (when (< (count @messages) *max-messages*)
-          (println (str "Accepting message: " message-text))
-          (swap! messages
-                 (fn [m] (conj m message)))
-          (doseq [ch @channels]
-            (send! ch message-text))))
-      (println (str "Ignoring incoming command " command-name)))))
-
-(defn ws-handler [request]
+#_(defn ws-handler [request]
   (let [user (-> request :session :user-id)]
     (println @messages)
     (with-channel request channel
@@ -75,29 +58,47 @@
 
 (defn boards-handler [request]
   {:body (json/write-str {:boards (map (fn [[board-id board-props]]
-                                         {:id board-id
-                                          :name (:name board-props)
-                                          :question (:question board-props)})
+                                         (assoc board-props :id board-id))
                                        @boards)})})
 
 (defn board-found [board-name]
-  (println (str "Trying to find board " board-name " in " @boards))
   (some #(= (:name (second %)) board-name) @boards))
 
 (defn boards-post-handler [request]
   (let [board-name (get (:form-params request) "board-name")
         board-question (get (:form-params request) "board-question")]
-    (if (or (nil? board-name) (board-found board-name))
+    (if (or (nil? board-name) (nil? board-question) (board-found board-name))
       {:body (json/write-str {:status "fail"})}
-      (let [board-id (str (java.util.UUID/randomUUID))]
-        (swap! boards assoc board-id {:name board-name
-                                      :question board-question
-                                      :creation-timestamp (.getTime (java.util.Date.))
-                                      :answers []
-                                      :owner (-> request :session :user-id)})
+      (let [board-id (str (java.util.UUID/randomUUID))
+            board {:name board-name
+                   :question board-question
+                   :creation-timestamp (.getTime (java.util.Date.))
+                   :answers []
+                   :owner (-> request :session :user-id)}]
+        (swap! boards assoc board-id board)
         (println (str "Now boards -> " @boards))
         {:body (json/write-str {:status "ok"
-                                :board-id board-id})}))))
+                                :board (assoc board :id board-id)})}))))
+
+(defn answers-for [board-id]
+  (:answers (get @boards board-id)))
+
+(defn board-post-handler [request]
+  (let [board-id (-> request :params :board-id)]
+    (let [current-user (-> request :session :user-id)
+          answer-text (get (:form-params request) "answer")
+          answer {:text answer-text
+                  :user current-user
+                  :date (.getTime (java.util.Date.))
+                  :id (str (java.util.UUID/randomUUID))}]
+      (if (< (count (filter #(= (:user %) current-user)
+                            (answers-for board-id))) *max-messages-per-user*)
+        (do
+          (swap! boards update-in [board-id :answers] (fn [m] (conj m answer)))
+          {:body (json/write-str {:status "ok"})})
+        {:body (json/write-str {:status "fail"
+                                :message (str "Too many messages on board "
+                                              (:name (get @boards board-id)))})}))))
 
 (defroutes app
   (GET "/" [] (file-response "resources/public/index.html"))
@@ -105,7 +106,8 @@
   (POST "/login" [] login-handler)
   (GET "/boards" [] boards-handler)
   (POST "/boards" [] boards-post-handler)
-  (GET "/ws" [] ws-handler)
+  (POST "/boards/:board-id" [] board-post-handler)
+  ; (GET "/ws" [] ws-handler)
   (route/resources "/")
   (route/not-found "404 Not Found"))
 

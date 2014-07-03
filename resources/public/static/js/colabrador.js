@@ -1,4 +1,4 @@
-/*global ajaxRequest, window, showSection, showError, initSection, showBoard, boardConnector */
+/*global ajaxRequest, window, showSection, showError, initSection, showBoard, boardConnector, _ */
 
 // var hostname = location.hostname;
 // var port = location.port;
@@ -15,7 +15,6 @@ window.addEventListener("load", function(/*e*/) {
     ajaxRequest("GET", "/login-info", {
         ready: function(xmlhttp) {
             if (xmlhttp.status === 200) {
-                console.log("Received " + xmlhttp.responseText + " from login-info");
                 var result = JSON.parse(xmlhttp.responseText);
                 var sectionToShow = result["valid-session"] ?
                         "list-boards" : "login";
@@ -34,7 +33,6 @@ document.getElementById("login-form").addEventListener("submit", function(e) {
     ajaxRequest("POST", "/login", {
         ready: function(xmlhttp) {
             if (xmlhttp.status === 200) {
-                console.log("Received " + xmlhttp.responseText + " from login");
                 var result = JSON.parse(xmlhttp.responseText);
                 var sectionToShow = result.status === "ok" ?
                         "list-boards" : "login";
@@ -56,9 +54,14 @@ document.getElementById("new-board-form").addEventListener("submit", function(e)
     ajaxRequest("POST", "/boards", {
         ready: function(xmlhttp) {
             if (xmlhttp.status === 200) {
-                showSection("board");
-                nameBox.value = "";
-                questionBox.value = "";
+                var result = JSON.parse(xmlhttp.responseText);
+                if (result.status === "ok") {
+                    showBoard(result.board);
+                    nameBox.value = "";
+                    questionBox.value = "";
+                } else {
+                    showError("Couldn't create board '" + nameBox.value + "'");
+                }
             } else {
                 showError("Couldn't create board '" + nameBox.value + "'");
             }
@@ -72,8 +75,18 @@ document.getElementById("message-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
     var box = document.getElementById("message-box");
-    // socket.send(JSON.stringify({command: 'post', text: box.value}));
-    box.value = "";
+    var boardId = document.getElementById("board-id").value;
+    ajaxRequest("POST", "/boards/" + boardId, {
+        ready: function(xmlhttp) {
+            if (xmlhttp.status === 200) {
+                box.value = "";
+                showSection("list-boards");
+            } else {
+                showError("Couldn't post answer on board");
+            }
+        },
+        body: "answer=" + encodeURI(box.value)
+    });
 }, false);
 
 initSection("list-boards", function() {
@@ -82,9 +95,14 @@ initSection("list-boards", function() {
             if (xmlhttp.status === 200) {
                 var result = JSON.parse(xmlhttp.responseText);
                 var listElement = document.getElementById("board-list");
-                var board, boardElement, boardLink;
-                for (var i = 0, len = result.boards.length; i < len; i++) {
-                    board = result.boards[i];
+                while (listElement.firstChild) {
+                    listElement.removeChild(listElement.firstChild);
+                }
+
+                var boardElement, boardLink;
+                var orderedBoards = _.sortBy(result.boards,
+                                             "creation-timestamp");
+                _.forEach(orderedBoards.reverse(), function(board) {
                     boardElement = document.createElement("li");
                     boardLink = document.createElement("a");
 
@@ -94,7 +112,7 @@ initSection("list-boards", function() {
                                                false);
                     boardElement.appendChild(boardLink);
                     listElement.appendChild(boardElement);
-                }
+                });
             } else {
                 showError("Error fetching boards. Server status code " + xmlhttp.status + ".");
             }
