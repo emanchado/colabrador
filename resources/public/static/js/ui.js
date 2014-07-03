@@ -19,6 +19,19 @@ function showError(msg) {
     document.getElementById("error-message").textContent = msg;
 }
 
+function boardConnector(board) {
+    return function(e) {
+        e.preventDefault();
+        showBoard(board);
+    };
+}
+
+function showBoard(board) {
+    document.getElementById("board-question").textContent = board.question;
+    console.log("Show 'question' section with question " + board.question);
+    showSection("question");
+}
+
 function initSection(sectionName, callback) {
     sectionInitFunctions[sectionName] = callback;
 }

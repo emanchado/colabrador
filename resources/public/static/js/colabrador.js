@@ -1,4 +1,4 @@
-/*global ajaxRequest, window, showSection, showError, initSection */
+/*global ajaxRequest, window, showSection, showError, initSection, showBoard, boardConnector */
 
 // var hostname = location.hostname;
 // var port = location.port;
@@ -51,19 +51,20 @@ document.getElementById("login-form").addEventListener("submit", function(e) {
 document.getElementById("new-board-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    var box = document.getElementById("new-board-name");
-    console.log("Trying to create board " + box.value);
+    var nameBox = document.getElementById("new-board-name");
+    var questionBox = document.getElementById("new-board-question");
     ajaxRequest("POST", "/boards", {
         ready: function(xmlhttp) {
             if (xmlhttp.status === 200) {
-                console.log("Server returned: " + xmlhttp.responseText);
                 showSection("board");
-                box.value = "";
+                nameBox.value = "";
+                questionBox.value = "";
             } else {
-                showError("Couldn't create board '" + box.value + "'");
+                showError("Couldn't create board '" + nameBox.value + "'");
             }
         },
-        body: "board-name=" + encodeURI(box.value)
+        body: "board-name=" + encodeURI(nameBox.value) + "&board-question=" +
+            encodeURI(questionBox.value)
     });
 }, false);
 
@@ -79,13 +80,20 @@ initSection("list-boards", function() {
     ajaxRequest("GET", "/boards", {
         ready: function(xmlhttp) {
             if (xmlhttp.status === 200) {
-                console.log("Received boards = " + xmlhttp.responseText);
                 var result = JSON.parse(xmlhttp.responseText);
                 var listElement = document.getElementById("board-list");
+                var board, boardElement, boardLink;
                 for (var i = 0, len = result.boards.length; i < len; i++) {
-                    var element = document.createElement("li");
-                    element.textContent = result.boards[i];
-                    listElement.appendChild(element);
+                    board = result.boards[i];
+                    boardElement = document.createElement("li");
+                    boardLink = document.createElement("a");
+
+                    boardLink.textContent = board.name;
+                    boardLink.addEventListener("click",
+                                               boardConnector(board),
+                                               false);
+                    boardElement.appendChild(boardLink);
+                    listElement.appendChild(boardElement);
                 }
             } else {
                 showError("Error fetching boards. Server status code " + xmlhttp.status + ".");

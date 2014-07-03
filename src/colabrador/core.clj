@@ -32,7 +32,7 @@
       (println (str "Ignoring incoming command " command-name)))))
 
 (defn ws-handler [request]
-  (let [user (get-in request [:cookies "session" :value])]
+  (let [user (-> request :session :user-id)]
     (println @messages)
     (with-channel request channel
       (when (websocket? channel)
@@ -49,7 +49,7 @@
                               (process-command (json/read-str data) user)))))))
 
 (defn valid-session? [request]
-  (-> request :session :logged-in?))
+  (-> request :session :user-id))
 
 (defn user-id [request]
   (get (:form-params request) "username"))
@@ -74,7 +74,11 @@
      :headers {"Content-Type" "application/json"}}))
 
 (defn boards-handler [request]
-  {:body (json/write-str {:boards (map (comp :name second) @boards)})})
+  {:body (json/write-str {:boards (map (fn [[board-id board-props]]
+                                         {:id board-id
+                                          :name (:name board-props)
+                                          :question (:question board-props)})
+                                       @boards)})})
 
 (defn board-found [board-name]
   (println (str "Trying to find board " board-name " in " @boards))
@@ -88,6 +92,7 @@
       (let [board-id (str (java.util.UUID/randomUUID))]
         (swap! boards assoc board-id {:name board-name
                                       :question board-question
+                                      :creation-timestamp (.getTime (java.util.Date.))
                                       :answers []
                                       :owner (-> request :session :user-id)})
         (println (str "Now boards -> " @boards))
