@@ -29,7 +29,8 @@ function boardConnector(board) {
 function showBoard(board) {
     document.getElementById("board-question").textContent = board.question;
     document.getElementById("board-id").value = board.id;
-    showSection("question");
+    document.getElementById("board-owner").value = board.owner;
+    showSection("board");
 }
 
 function initSection(sectionName, callback) {

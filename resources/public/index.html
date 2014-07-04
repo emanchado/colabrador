@@ -2,16 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
     <title>Colabrador</title>
     <meta name="viewport" content="width=device-width">
-
-
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/colabrador.css" rel="stylesheet">
-
-  
-</head>
+  </head>
 
   <body>
     <div class="jumbotron">
@@ -81,6 +76,14 @@
       </div>
     </div>
 
+    <!-- Board =========================================================== -->
+    <div id="board-section" style="display: none" class="container
+                                                         section col-md-12">
+      <div class="col-md-12 info">
+        Loading...
+      </div>
+    </div>
+
     <!-- Questions ======================================================= -->
     <div id="question-section" style="display: none" class="container
                                                             section col-md-12">
@@ -100,6 +103,7 @@
                      class="form-control" placeholder="Type your thoughts"
                      maxlength="100">
               <input type="hidden" id="board-id" name="board-id" value="" />
+              <input type="hidden" id="board-owner" name="board-owner" value="" />
             </div>
           </div>
           <div class="widget col-md-6">
@@ -107,6 +111,14 @@
                                                                 answer on the board" />
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Board admin ===================================================== -->
+    <div id="board-admin-section" style="display: none" class="container
+                                                               section col-md-12">
+      <div class="col-md-12 info">
+        Board admin
       </div>
     </div>
 

@@ -1,23 +1,19 @@
 /*global ajaxRequest, window, showSection, showError, initSection, showBoard, boardConnector, _ */
 
-// var hostname = location.hostname;
-// var port = location.port;
-// var socket = new WebSocket("ws://" + hostname + ":" + port + "/ws");
-
-// socket.onopen = function() {
-//     console.log("Connected!");
-// };
-// socket.onmessage = function(msg) {
-//     console.log("Received message from server: " + msg.data);
-// };
+var hostname = location.hostname;
+var port = location.port;
+var socket, userId;
 
 window.addEventListener("load", function(/*e*/) {
     ajaxRequest("GET", "/login-info", {
         ready: function(xmlhttp) {
             if (xmlhttp.status === 200) {
                 var result = JSON.parse(xmlhttp.responseText);
-                var sectionToShow = result["valid-session"] ?
-                        "list-boards" : "login";
+                var sectionToShow = "login";
+                if (result["valid-session"]) {
+                    sectionToShow = "list-boards";
+                    userId = result["user-id"];
+                }
                 showSection(sectionToShow);
             } else {
                 showError("Authentication error, try reloading the page in a couple of minutes");
@@ -111,6 +107,10 @@ initSection("list-boards", function() {
                                                boardConnector(board),
                                                false);
                     boardElement.appendChild(boardLink);
+
+                    if (board.owner === userId) {
+                        boardElement.appendChild(document.createTextNode(" (owner)"));
+                    }
                     listElement.appendChild(boardElement);
                 });
             } else {
@@ -118,4 +118,26 @@ initSection("list-boards", function() {
             }
         }
     });
+});
+
+initSection("board", function() {
+    var boardOwner = document.getElementById("board-owner").value;
+    if (boardOwner === userId) {
+        var boardId = document.getElementById("board-id").value;
+        var wsUri = "ws://" + hostname + ":" + port + "/boards/" + boardId + "/ws";
+        socket = new WebSocket(wsUri);
+
+        socket.onerror = function() {
+            console.log("Could not establish a WebSocket connection to board " + boardId);
+            showSection("question");
+        };
+        socket.onopen = function() {
+            showSection("board-admin");
+        };
+        socket.onmessage = function(msg) {
+            console.log("Received message from server: " + msg.data);
+        };
+    } else {
+        showSection("question");
+    }
 });
