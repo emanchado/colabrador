@@ -96,6 +96,18 @@ document.getElementById("toggle-names-button").addEventListener("click", functio
     });
 }, false);
 
+document.getElementById("back-from-board-admin-button").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    showSection("list-boards");
+});
+
+document.getElementById("back-from-answer-button").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    showSection("list-boards");
+});
+
 initSection("list-boards", function() {
     ajaxRequest("GET", "/boards", {
         ready: function(xmlhttp) {

@@ -3,6 +3,14 @@
 var sectionInitFunctions = {};
 
 function showSection(sectionName) {
+    // First, make sure we are back to "default design"
+    _.forEach(document.getElementsByClassName("board-design"), function(e) {
+        e.style.display = 'none';
+    });
+    _.forEach(document.getElementsByClassName("default-design"), function(e) {
+        e.style.display = '';
+    });
+
     var id = sectionName + "-section";
     var sections = document.getElementsByClassName("section");
     var cb;
