@@ -12,7 +12,7 @@
 
 (def ^:dynamic *max-messages-per-user* 1)
 (def boards (atom {}))
-(def channels (atom []))
+(def board-channels (atom {}))
 
 (defn current-user [request]
   (-> request :session :user-id))
@@ -75,6 +75,8 @@
                             (answers-for board-id))) *max-messages-per-user*)
         (do
           (swap! boards update-in [board-id :answers] (fn [m] (conj m answer)))
+          (doseq [ch (get @board-channels board-id)]
+            (send! ch (json/write-str answer)))
           {:body (json/write-str {:status "ok"})})
         {:body (json/write-str {:status "fail"
                                 :message (str "Too many messages on board "
@@ -86,16 +88,16 @@
     (if (is-board-owner? user board-id)
       (with-channel request channel
         (when (websocket? channel)
-          (swap! channels #(conj % channel))
-          (println (str ">> NEW USER (" (count @channels) " users(s) total)"))
+          (swap! board-channels update-in [board-id] #(conj % channel))
+          (println (str ">> NEW USER (" (count (get @board-channels board-id)) " users(s) total)"))
           (doseq [answer (answers-for board-id)]
-            (send! channel (:text answer)))
+            (send! channel (json/write-str answer)))
           (on-close channel (fn [status]
                               (println ">> CLOSED: " status)
-                              (swap! channels
+                              (swap! board-channels update-in [board-id]
                                      (fn [chs] (remove #(= channel %) chs)))))
           (on-receive channel (fn [data]
-                                (println (str "Received " data))))))
+                                (println (str "Received " data " via WS"))))))
       {:body "You need to be the owner of the channel to receive information about it!"})))
 
 (defn logged-in-handler [handler]

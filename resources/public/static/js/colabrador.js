@@ -1,4 +1,4 @@
-/*global ajaxRequest, window, showSection, showError, initSection, showBoard, boardConnector, _ */
+/*global ajaxRequest, window, showSection, showError, initSection, showBoard, boardConnector, _, showBoardAdmin, addAnswerToBoard */
 
 var hostname = location.hostname;
 var port = location.port;
@@ -30,8 +30,11 @@ document.getElementById("login-form").addEventListener("submit", function(e) {
         ready: function(xmlhttp) {
             if (xmlhttp.status === 200) {
                 var result = JSON.parse(xmlhttp.responseText);
-                var sectionToShow = result.status === "ok" ?
-                        "list-boards" : "login";
+                var sectionToShow = "login";
+                if (result.status === "ok") {
+                    userId = result["user-id"];
+                    sectionToShow = "list-boards";
+                }
                 showSection(sectionToShow);
                 box.value = "";
             } else {
@@ -85,6 +88,14 @@ document.getElementById("message-form").addEventListener("submit", function(e) {
     });
 }, false);
 
+document.getElementById("toggle-names-button").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    _.forEach(document.getElementsByClassName("username"), function(e) {
+        e.style.display = e.style.display === "none" ? "" : "none";
+    });
+}, false);
+
 initSection("list-boards", function() {
     ajaxRequest("GET", "/boards", {
         ready: function(xmlhttp) {
@@ -132,10 +143,17 @@ initSection("board", function() {
             showSection("question");
         };
         socket.onopen = function() {
-            showSection("board-admin");
+            showBoardAdmin();
         };
         socket.onmessage = function(msg) {
             console.log("Received message from server: " + msg.data);
+
+            var answer = JSON.parse(msg.data);
+            var answerBoard = document.getElementById("container");
+            addAnswerToBoard(answer, answerBoard, function() {
+                socket.send(JSON.stringify({command: 'delete',
+                                            id: answer.id}));
+            });
         };
     } else {
         showSection("question");

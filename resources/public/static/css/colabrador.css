@@ -1,11 +1,11 @@
 body {
-	background-color: #0776a0;
-	color: white;
-	font-size: 2em;		
-	font-family: roboto;
+        background-color: #0776a0;
+        color: white;
+        font-size: 2em;
+        font-family: roboto;
 }
 h1 {
-	font-family: ComicChub;
+        font-family: ComicChub;
 }
 
 a {
@@ -35,103 +35,102 @@ a {
 .widget {
 }
 .logo {
-	display: none;
-	float: right;
-	padding: 1%;
-	background-color: white;
-	border-radius: 500px;
-	height: 30%;
-	width: 20%;
-	margin: 3%;
-	position: relative;
-	z-index: 100;
+        display: none;
+        float: right;
+        padding: 1%;
+        background-color: white;
+        border-radius: 500px;
+        height: 30%;
+        width: 20%;
+        margin: 3%;
+        position: relative;
+        z-index: 100;
 }
 .logo2 {
-	float: right;
-	background-color: white;
-	border-radius: 50px;
-	width: 50px;
-	height: 50px;
-	float: right;
-	margin-right: 2%;
-	margin-top: 2%;
-	color: green;
-	font-size: 2em;
-	display: inline-block;
-	position: relative;
-	z-index: 100;
+        float: right;
+        background-color: white;
+        border-radius: 50px;
+        width: 50px;
+        height: 50px;
+        float: right;
+        margin-right: 2%;
+        margin-top: 2%;
+        color: green;
+        font-size: 2em;
+        display: inline-block;
+        position: relative;
+        z-index: 100;
 }
 .jumbotron {
-	background-color: #024c68;
-	padding-left: 20%;
+        background-color: #024c68;
+        padding-left: 20%;
 }
 
 .exit {
-	font-size: 1em;
-	float: right;
+        font-size: 1em;
+        float: right;
         cursor: pointer;
 }
 
 .widget {
-	padding: 5px;
-	padding-top: 15px;
+        padding: 5px;
+        padding-top: 15px;
 }
 
 .answers {
-	display: none;
+        display: none;
 }
 .headline {
-	background-color: white;
-	padding-top: 30px;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin: 0px;
-	color:black;
+        background-color: white;
+        padding-top: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin: 0px;
+        color:black;
 }
 .board {
-	border-width: 10px;
-	border-color: white;
-
+        border-width: 10px;
+        border-color: white;
 }
 .avatar {
-	width: 40px;
+        width: 40px;
 }
 .complete {
-	background-color: white;
-	border-radius: 500px;
-	height: 300px;
-	font-family: roboto;
+        background-color: white;
+        border-radius: 500px;
+        height: 300px;
+        font-family: roboto;
 }
 h2 {
-	padding-left: 40px;
+        padding-left: 40px;
 }
 
 .nugget {
-	background-color: #0776a0;
+        background-color: #0776a0;
         color: white;
-	border-radius: 5px;
-	padding: 15px;
-	margin: 15px;
-	font-size: 1.5em;
-	font-weight: bold;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px;
+        font-size: 1.5em;
+        font-weight: bold;
 
 }
 .endscreen {
-	padding-top: 15%;
+        padding-top: 15%;
 
 }
 .sidepanel {
-	float: right;
+        float: right;
 
 }
 
 * { margin: 0; padding: 0 }
-.slide1 { 
+.slide1 {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1;  /* sets it below the other slides in the layer stack */
-    
+
     width: 100%;
 }
 .slide2 {
@@ -143,67 +142,92 @@ h2 {
     background: rgba(255,255,255,0.8);
 }
 .learn {
-	padding-top: 30px;
-	padding-left: 20%;
-	min-height: 1200px;
-	color: black;
+        padding-top: 30px;
+        padding-left: 20%;
+        min-height: 1200px;
+        color: black;
 }
 .learn h2 {
-	padding-top: 10%;
+        padding-top: 10%;
 }
 .info {
-	padding-left: 10%;
+        padding-left: 10%;
 }
 textarea {
-	min-height: 800px;
-	min-width: 300px;
-	width: 80%;
-	height: 90%;
-	font-weight: bold;
-	font-size: 1.5em;
-	border: none;
-	padding: 8px;
-	background: rgba(255,255,255,0.5)
+        min-height: 800px;
+        min-width: 300px;
+        width: 80%;
+        height: 90%;
+        font-weight: bold;
+        font-size: 1.5em;
+        border: none;
+        padding: 8px;
+        background: rgba(255,255,255,0.5)
 }
 .quote {
     z-index: 100;
 }
 .deco {
-	font-family: butterflies;
-	color: #0776a0;
-	position: absolute;
+        font-family: butterflies;
+        color: #0776a0;
+        position: absolute;
         white-space: nowrap;
 }
 .deco-top {
     letter-spacing: 5px;
     padding-left: 70%;
-	font-size: 2em;
+        font-size: 2em;
         top: 10px;
 }
 .deco-bottom {
-	font-size: 3em;
+        font-size: 3em;
         top: 180px;
 }
 .deco2 {
-	font-family: can_dog_tfb;
-	color: #024c68;
-	font-size: 3em;
+        font-family: can_dog_tfb;
+        color: #024c68;
+        font-size: 3em;
         position: absolute;
-	bottom: 0px;
+        bottom: 0px;
         top: -50px;
         white-space: nowrap;
 }
 .foot {
-	color: #024c68;
-	background-color: #024c68;
+        color: #024c68;
+        background-color: #024c68;
 }
 
 .btn-primary {
-	background-color: #024c68;
-	width: 50%;
+        background-color: #024c68;
+        width: 50%;
 }
 
 .username {
     font-size: 0.6em;
     font-weight: bold;
+}
+
+
+/* Styles for the board admin */
+
+#container {
+    height:1001px;
+    overflow:visible;
+    padding:0;
+    position:relative;
+    padding-left: 30px;
+    background-color: #333;
+}
+
+.box {
+    background-color: rgba(105,151,211,0.4);
+    width: auto;
+    height: auto;
+    color: white;
+    position: absolute;
+    top:0;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 8px;
 }

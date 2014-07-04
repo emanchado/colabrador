@@ -9,25 +9,29 @@
   </head>
 
   <body>
-    <div class="jumbotron">
+    <div class="jumbotron default-design">
       <img class="logo" src="/static/images/dog.png" width="200px">
 
       <h1>Colabrador</h1> 
       <span class="quote">Share and discuss</span>
     </div>
 
-    <div class="deco deco-top">&nbsp;&nbsp;&nbsp;&nbsp;w</div>
-    <div class="deco deco-bottom">The ships hung in the sky in much the same way that bricks don't</div>
+    <div class="deco deco-top default-design">&nbsp;&nbsp;&nbsp;&nbsp;w</div>
+    <div class="deco deco-bottom default-design">the ships hung in the sky in much the same way that bricks don't</div>
 
     <!-- Error messages ================================================== -->
     <div id="error-section" style="display: none" class="container
-                                                         section col-md-12">
+                                                         section
+                                                         col-md-12
+                                                         default-design">
       <div id="error-message" class="col-md-12">Generic error</div>
     </div>
 
     <!-- Login =========================================================== -->
     <div id="login-section" style="display: none" class="container
-                                                         section col-md-12">
+                                                         section
+                                                         col-md-12
+                                                         default-design">
       <div class="col-md-12">
         You have to type in your name before you can start sharing your thoughts.
       </div>
@@ -49,7 +53,9 @@
 
     <!-- List of boards ================================================== -->
     <div id="list-boards-section" style="display: none" class="container
-                                                               section col-md-12">
+                                                               section
+                                                               col-md-12
+                                                               default-design">
       <div class="col-md-12 info">
         <ul id="board-list">
         </ul>
@@ -78,7 +84,9 @@
 
     <!-- Board =========================================================== -->
     <div id="board-section" style="display: none" class="container
-                                                         section col-md-12">
+                                                         section
+                                                         col-md-12
+                                                         default-design">
       <div class="col-md-12 info">
         Loading...
       </div>
@@ -86,7 +94,9 @@
 
     <!-- Questions ======================================================= -->
     <div id="question-section" style="display: none" class="container
-                                                            section col-md-12">
+                                                            section
+                                                            col-md-12
+                                                            default-design">
       <div id="board-question" class="col-md-12 info">
         If you had a superpower, what would that superpower be?
       </div>
@@ -114,19 +124,40 @@
       </div>
     </div>
 
-    <!-- Board admin ===================================================== -->
-    <div id="board-admin-section" style="display: none" class="container
-                                                               section col-md-12">
-      <div class="col-md-12 info">
-        Board admin
-      </div>
-    </div>
-
-    <div class="foot navbar navbar-fixed-bottom">
+    <div class="foot navbar navbar-fixed-bottom default-design">
       <div class="deco2 col-md-12">
         For instance, on the planet Earth, man had always assumed
         that he was more intelligent than dolphins because he had
         achieved so much
+      </div>
+    </div>
+
+
+
+
+    <!-- Special page for the board view ================================= -->
+    <div class="slide1 board-design" style="display: none">
+      <div class="logo2"><a data-scroll data-options="speed: 40;easing: easeInOutCubic;offset: 0;updateURL: false" href="#learned"><glypicon class="glyphicon glyphicon-ok"/></a>
+      </div>
+
+      <div class="board container">
+
+        <h2 id="answers">Colabrador answer board
+          <button id="toggle-names-button" class="btn btn-primary"
+                  style="width: 200px; margin-left: 30px">toggle
+                  names</button></h2>
+
+        <div class="container">
+          <div id="container" class="board"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide2 board-design" style="display: none">
+      <div class="learn">
+        <h2 id="learned"><a data-scroll data-options="speed: 40;easing: easeInOutCubic;offset: 0;updateURL: false" href="#answers"><glyphicon class="glyphicon
+glyphicon-remove-sign"></a> What did we learn?</h2>
+        <textarea></textarea>
       </div>
     </div>
 
@@ -135,6 +166,11 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/lodash.min.js"></script>
+    <!-- Drag and Drop stuff -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/TweenMax.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/utils/Draggable.min.js"></script>
+    <script src="/static/js/smooth-scroll.js"></script>
+    <script>smoothScroll.init();</script>
     <!-- Application specific Javascript -->
     <script src="/static/js/ajax.js"></script>
     <script src="/static/js/ui.js"></script>
