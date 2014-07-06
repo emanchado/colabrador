@@ -11,6 +11,7 @@
   (:gen-class))
 
 (def ^:dynamic *max-messages-per-user* 1)
+(def ^:dynamic *board-ttl* 900000)
 (def boards (atom {}))
 (def board-channels (atom {}))
 
@@ -42,7 +43,16 @@
     {:body (json/write-str {:valid-session false})
      :headers {"Content-Type" "application/json"}}))
 
+(defn remove-unused-boards [boards-atom]
+  (let [now (.getTime (java.util.Date.))
+        min-unused-since (- now *board-ttl*)]
+    (swap! boards-atom (fn [boards]
+                         (into {}
+                               (remove #(< (get (second %) :unused-since now)
+                                           min-unused-since) boards))))))
+
 (defn boards-handler [request]
+  (remove-unused-boards boards)
   {:body (json/write-str {:boards (map (fn [[board-id board-props]]
                                          (assoc board-props :id board-id))
                                        @boards)})})
@@ -88,12 +98,14 @@
     (if (is-board-owner? user board-id)
       (with-channel request channel
         (when (websocket? channel)
+          (swap! boards update-in [board-id] dissoc :unused-since)
           (swap! board-channels update-in [board-id] #(conj % channel))
           (println (str ">> NEW USER (" (count (get @board-channels board-id)) " users(s) total)"))
           (doseq [answer (answers-for board-id)]
             (send! channel (json/write-str answer)))
           (on-close channel (fn [status]
                               (println ">> CLOSED: " status)
+                              (swap! boards assoc-in [board-id :unused-since] (.getTime (java.util.Date.)))
                               (swap! board-channels update-in [board-id]
                                      (fn [chs] (remove #(= channel %) chs)))))
           (on-receive channel (fn [data]
