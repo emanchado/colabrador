@@ -1,6 +1,6 @@
 (ns colabrador.core
   (:use org.httpkit.server)
-  (:use [compojure.core :only (defroutes GET POST)])
+  (:use [compojure.core :only (defroutes GET POST DELETE)])
   (:require [clojure.data.json :as json]
             [compojure.route :as route]
             [ring.middleware.cookies :refer [wrap-cookies]]
@@ -112,6 +112,29 @@
                                 (println (str "Received " data " via WS"))))))
       {:body "You need to be the owner of the channel to receive information about it!"})))
 
+(defn find-board-for-answer [answer-id boards]
+  (loop [boards boards]
+    (println (first boards))
+    (let [[board-id {:keys [answers]}] (first boards)]
+      (cond
+       (some #(= answer-id (:id %)) answers) board-id
+       (empty? boards) nil
+       :else (recur (rest boards))))))
+
+(defn answer-delete-handler [request]
+  (let [answer-id (-> request :params :answer-id)
+        board-id (find-board-for-answer answer-id @boards)]
+    (if (nil? board-id)
+      {:body (str "Can't find answer " answer-id)
+       :status 404}
+      (if (is-board-owner? (current-user request) board-id)
+        (do
+         (swap! boards update-in [board-id :answers]
+                (fn [as] (remove #(= (:id %) answer-id) as)))
+         {:status 204})
+        {:body (str "You are not the owner of board " board-id)
+         :status 400}))))
+
 (defn logged-in-handler [handler]
   (fn [request]
     (if-let [user (current-user request)]
@@ -126,6 +149,7 @@
   (POST "/boards" [] (logged-in-handler boards-post-handler))
   (POST "/boards/:board-id" [] (logged-in-handler board-post-handler))
   (GET "/boards/:board-id/ws" [] (logged-in-handler board-ws-handler))
+  (DELETE "/answers/:answer-id" [] (logged-in-handler answer-delete-handler))
   (route/resources "/")
   (route/not-found "404 Not Found"))
 

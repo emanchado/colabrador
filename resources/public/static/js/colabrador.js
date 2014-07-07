@@ -158,13 +158,17 @@ initSection("board", function() {
             showBoardAdmin();
         };
         socket.onmessage = function(msg) {
-            console.log("Received message from server: " + msg.data);
-
             var answer = JSON.parse(msg.data);
             var answerBoard = document.getElementById("container");
             addAnswerToBoard(answer, answerBoard, function() {
-                socket.send(JSON.stringify({command: 'delete',
-                                            id: answer.id}));
+                ajaxRequest('DELETE', '/answers/' + answer.id, {
+                    ready: function(xmlhttp) {
+                        if (xmlhttp.status !== 200) {
+                            console.log("Couldn't delete answer '" +
+                                            answer.id + "'");
+                        }
+                    }
+                });
             });
         };
     } else {
